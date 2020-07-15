@@ -192,7 +192,6 @@ function main(bot) {
 		"received tpa"
 	);
 	bot.on("tpa", (u, m) => {
-        log("TPA " + u);
 		let user = m.extra[0].text;
 		log("TPA " + user, LOG_CMD);
 		if (op.includes(user) || mode !== "private") {
