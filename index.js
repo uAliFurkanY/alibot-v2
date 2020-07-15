@@ -205,9 +205,8 @@ function main(bot) {
 		if (m.startsWith(prefix)) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
-			let command = args.shift();
-
-			log(`CMD ${u} ${cmd}`, LOG_CMD);
+            let command = args.shift();
+            let realCmd = true;
 
 			switch (command) {
 				case "say":
@@ -297,7 +296,11 @@ function main(bot) {
 						send(`: The current mode is ${mode}`);
 					}
 					break;
+				default:
+					realCmd = false;
+					break;
 			}
+			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
 		}
 	});
 	bot.navigate.on("pathFound", function () {
