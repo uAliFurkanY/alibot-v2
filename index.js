@@ -152,7 +152,7 @@ function init(r) {
 	toSend = [];
 
 	lastkill = Date.now();
-	bot.on("spawn", () => main(bot));
+	bot.once("spawn", () => main(bot));
 	bot._client.once("session", () => {
 		session = bot._client.session;
 		login.session = session;
