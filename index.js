@@ -184,7 +184,7 @@ function init(r) {
 function main(bot) {
 	navigatePlugin(bot);
 	tpsPlugin(bot);
-	bot.on("chat", (m, u) => {
+	bot.on("chat", (u, m) => {
 		m = m.trim();
         u = u.trim();
 		log(`<${u}> ${m}`, LOG_CHAT);
