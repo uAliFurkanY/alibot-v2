@@ -215,6 +215,11 @@ function main(bot) {
 						send(`: ${u} » ${args.join(" ")}`);
 					}
 					break;
+				case "sudo":
+					if (op.includes(u)) {
+						send(args.join(" "));
+                    }
+                    break;
 			}
 		}
 	});
