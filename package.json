@@ -1,0 +1,25 @@
+{
+  "name": "alibot-v2",
+  "version": "1.0.0",
+  "description": "alibot-mc but better",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uAliFurkanY/alibot-v2.git"
+  },
+  "author": "Ali Furkan YILDIZ",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/uAliFurkanY/alibot-v2/issues"
+  },
+  "homepage": "https://github.com/uAliFurkanY/alibot-v2#readme",
+  "dependencies": {
+    "mineflayer": "^2.23.0",
+    "mineflayer-navigate": "0.0.10",
+    "mineflayer-tps": "^1.0.1",
+    "vec3": "^0.1.6"
+  }
+}
