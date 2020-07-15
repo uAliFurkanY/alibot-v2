@@ -297,9 +297,26 @@ function main(bot) {
 					}
 					break;
 				case "ignore":
-					if (op.includes(u)) {
-						ignored.push(u);
-						send(`: Ingored ${u}.`);
+					if (op.includes(u) && args.length >= 1) {
+						try {
+							let idx = op.findIndex(
+								(name) => name === args[0]
+							);
+							if (idx > -1) {
+								op.splice(idx, 1);
+								send(`: Unignored ${args[0]}.`);
+							} else {
+                                ignored.push(args[0]);
+                                send(`: Ignored ${args[0]}.`);
+                            }
+						} catch (e) {
+							send(`: Error.`);
+							console.log(e);
+						}
+					} else if (args.length >= 1) {
+						send(`: Sorry, you're not an operator.`);
+					} else {
+						send(`: Say a name.`);
 					}
 					break;
 				case "goto":
