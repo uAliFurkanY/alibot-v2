@@ -264,6 +264,23 @@ function main(bot) {
 						send(`: The operators are ${op.join(", ")}.`);
 					}
 					break;
+				case "deop":
+					if (op.includes(u) && args.length >= 1) {
+						try {
+							let idx = op.findIndex(() => name === args[0]);
+							if (idx > -1) {
+								op.splice(idx, 1);
+								send(`: Deopped ${args[0]}.`);
+							} else send(`: ${args[0]} isn't an opeator.`);
+						} catch {
+							send(`: Error.`);
+						}
+					} else if (args.length >= 1) {
+						send(`: Sorry, you're not an operator.`);
+					} else {
+						send(`: Say a name.`);
+					}
+					break;
 				case "goto":
 					if (op.includes(u)) {
 						let coords = args.map(
@@ -298,7 +315,11 @@ function main(bot) {
 				case "coords":
 					if (op.includes(u) || mode !== "private") {
 						send(
-							`: My coordinates are: ${bot.player.entity.position.x.toFixed(1)} ${bot.player.entity.position.y.toFixed(1)} ${bot.player.entity.position.z.toFixed(1)}.`
+							`: My coordinates are: ${bot.player.entity.position.x.toFixed(
+								1
+							)} ${bot.player.entity.position.y.toFixed(
+								1
+							)} ${bot.player.entity.position.z.toFixed(1)}.`
 						);
 					} else {
 						send(`: Sorry, the mode is private.`);
