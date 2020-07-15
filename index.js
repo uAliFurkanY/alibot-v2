@@ -185,9 +185,12 @@ function main(bot) {
 	navigatePlugin(bot);
 	tpsPlugin(bot);
 	bot.on("chat", (m, u) => {
-        if (LOG_CHAT)
-		    log(`<${u}> ${m}`, true);
+		m = m.trim();
+        u = u.trim();
+		log(`<${u}> ${m}`, LOG_CHAT);
 	});
 }
 
 init("FIRST");
+
+rl.on("line", (cmd) => {});
