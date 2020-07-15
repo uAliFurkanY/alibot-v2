@@ -259,7 +259,7 @@ function main(bot) {
 				case "op":
 					if (op.includes(u) && args.length >= 1) {
 						op.push(args[0]);
-						say(`: Opped ${args[0]}.`);
+						send(`: Opped ${args[0]}.`);
 					} else {
 						send(`: The operators are ${op.join(", ")}.`);
 					}
