@@ -267,14 +267,16 @@ function main(bot) {
 				case "deop":
 					if (op.includes(u) && args.length >= 1) {
 						try {
-							let idx = op.findIndex(() => name === args[0]);
+							let idx = op.findIndex(
+								(name) => name === args[0]
+							);
 							if (idx > -1) {
 								op.splice(idx, 1);
 								send(`: Deopped ${args[0]}.`);
 							} else send(`: ${args[0]} isn't an opeator.`);
 						} catch (e) {
-                            send(`: Error.`);
-                            console.log(e);
+							send(`: Error.`);
+							console.log(e);
 						}
 					} else if (args.length >= 1) {
 						send(`: Sorry, you're not an operator.`);
