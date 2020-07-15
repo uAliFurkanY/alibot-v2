@@ -90,8 +90,6 @@ const rl = readline.createInterface({
 	output: process.stdout,
 });
 
-let logFile = fs.openSync("alibot-" + start + ".log", "w");
-
 let ignored = config.IGNORED.split(",");
 let op = config.OP.split(",");
 console.log("Operators: " + op);
@@ -126,6 +124,7 @@ let mode = config.MODE;
 let prefix = config.PREFIX;
 let spawned = false;
 
+let logFile = fs.openSync("alibot-" + start + ".log", "w");
 function log(message, logToFile, date = Date.now()) {
 	let d1 = new Date(date);
 	console.log(`[${d1.getHours()}:${d1.getMinutes()}] ` + message);
