@@ -37,8 +37,10 @@ try {
 		arg.a || process.env.CONF_ACTIVE || conf.ACTIVE || "true";
 	config.DELAYS =
 		delays[+arg.d || +process.env.CONF_DELAYS || +conf.DELAYS || 4];
-	config.LOGLEVEL =
-		arg.l || process.env.CONF_LOGLEVEL || conf.LOGLEVEL || 4;
+        config.LOGLEVEL =
+        arg.l || process.env.CONF_LOGLEVEL || conf.LOGLEVEL || 4;
+        config.PREFIX =
+		arg.r || process.env.CONF_PREFIX || conf.PREFIX || ":";
 } catch (e) {
 	console.log(
 		"This error should NEVER happen. If it did, you edited/deleted 'config.json'. If you didn't, create an Issue. If you did, just use setup.js."
@@ -117,6 +119,7 @@ let login = {
 };
 
 let mode = config.MODE;
+let prefix = config.PREFIX;
 let spawned = false;
 
 let logFile = fs.openSync("alibot-" + start + ".log", "w");
@@ -199,7 +202,11 @@ function main(bot) {
 	bot.on("chat", (u, m) => {
 		m = m.trim();
 		u = u.trim();
-		//log(`CHAT <${u}> ${m}`, LOG_CHAT);
+        //log(`CHAT <${u}> ${m}`, LOG_CHAT);
+        if(m.startsWith(prefix)) {
+            let cmd = m.substr(1).trim();
+            log(`CMD ${u} ${cmd}`, LOG_CMD);
+        }
 	});
 }
 
