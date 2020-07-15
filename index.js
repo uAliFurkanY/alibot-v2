@@ -93,6 +93,7 @@ console.log("Operators: " + op);
 let lastkill = Date.now();
 let start = Date.now();
 let username;
+let bot;
 
 let toSend = [];
 let intervals = [
@@ -151,7 +152,7 @@ function randStr(length) {
 function init(r) {
 	spawned = false;
 	log(`INIT ${r}`, LOG_INIT);
-	let bot = mineflayer.createBot(login);
+	bot = mineflayer.createBot(login);
 
 	toSend = [];
 
