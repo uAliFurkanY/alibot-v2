@@ -152,8 +152,6 @@ function init(r) {
 	spawned = false;
 	log(`INIT ${r}`, LOG_INIT);
 	let bot = mineflayer.createBot(login);
-	navigatePlugin(bot);
-	tpsPlugin(bot);
 
 	toSend = [];
 
@@ -184,6 +182,8 @@ function init(r) {
 }
 
 function main(bot) {
+	navigatePlugin(bot);
+	tpsPlugin(bot);
 	bot.on("chat", (m, u) => {
 		console.log(...[m, u]);
 	});
