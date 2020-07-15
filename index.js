@@ -126,7 +126,7 @@ let spawned = false;
 let logFile = fs.openSync("alibot-" + start + ".log", "w");
 function log(message, logToFile, date = Date.now()) {
 	let d1 = new Date(date);
-	console.log(`<${d1.getHours()}:${d1.getMinutes()}> ` + message);
+	console.log(`[${d1.getHours()}:${d1.getMinutes()}] ` + message);
 
 	if (logToFile) fs.writeSync(logFile, `${date} ` + message + "\n");
 }
@@ -185,7 +185,8 @@ function main(bot) {
 	navigatePlugin(bot);
 	tpsPlugin(bot);
 	bot.on("chat", (m, u) => {
-		console.log(...[m, u]);
+        if (LOG_CHAT)
+		    log(`<${u}> ${m}`, true);
 	});
 }
 
