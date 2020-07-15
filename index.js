@@ -205,6 +205,4 @@ function main(bot) {
 
 init("FIRST");
 
-rl.on("line", (cmd) => {
-	send(cmd);
-});
+rl.on("line", send);
