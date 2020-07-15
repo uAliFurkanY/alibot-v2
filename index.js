@@ -32,6 +32,8 @@ try {
 	config.USERNAME = arg.u || process.env.CONF_USERNAME || conf.USERNAME;
 	config.PASSWORD = arg.p || process.env.CONF_PASSWORD || conf.PASSWORD;
 	config.OP = arg.o || process.env.CONF_OP || conf.OP || "AliFurkan";
+	config.IGNORED =
+		arg.i || process.env.CONF_IGNORED || conf.IGNORED || "";
 	config.MODE = arg.m || process.env.CONF_MODE || conf.MODE || "public";
 	config.ACTIVE =
 		arg.a || process.env.CONF_ACTIVE || conf.ACTIVE || "true";
@@ -88,6 +90,9 @@ const rl = readline.createInterface({
 	output: process.stdout,
 });
 
+let logFile = fs.openSync("alibot-" + start + ".log", "w");
+
+let ignored = config.IGNORED.split(",");
 let op = config.OP.split(",");
 console.log("Operators: " + op);
 
@@ -193,6 +198,7 @@ function main(bot) {
 	);
 	bot.on("tpa", (u, m) => {
 		let user = m.extra[0].text;
+		if (ignored.includes(user)) return 0;
 		log("TPA " + user, LOG_CMD);
 		if (op.includes(user) || mode !== "private") {
 			send(`/tpy ${user}`);
@@ -203,7 +209,7 @@ function main(bot) {
 	bot.on("chat", (u, m) => {
 		m = m.trim();
 		u = u.trim();
-		//log(`CHAT <${u}> ${m}`, LOG_CHAT);
+		if (ignored.includes(u)) return 0;
 		if (m.startsWith(prefix)) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
@@ -236,6 +242,7 @@ function main(bot) {
 						(Date.now() >= lastkill + 15 * 1000 &&
 							mode !== "private")
 					) {
+						lastkill = Date.now();
 						send(`/kill`);
 					} else if (mode === "private") {
 						send(`: Sorry, the mode is private.`);
@@ -291,6 +298,12 @@ function main(bot) {
 						send(`: Say a name.`);
 					}
 					break;
+				case "ignore":
+					if (op.includes(u)) {
+						ignored.push(u);
+						send(`: Ingored ${u}.`);
+					}
+					break;
 				case "goto":
 					if (op.includes(u)) {
 						let coords = args.map(
@@ -340,6 +353,7 @@ function main(bot) {
 					break;
 			}
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
+			else log(`CHAT <${u}> ${m}`, LOG_CHAT);
 		}
 	});
 	bot.navigate.on("pathFound", function () {
