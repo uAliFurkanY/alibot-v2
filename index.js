@@ -183,9 +183,10 @@ function init(r) {
 }
 
 function main(bot) {
+	spawned = true;
 	navigatePlugin(bot);
-    tpsPlugin(bot);
-    log("SPAWN", LOG_STAT);
+	tpsPlugin(bot);
+	log("SPAWN", LOG_STAT);
 	bot.chatAddPattern(
 		/^[a-zA-Z0-9_]{3,16} wants to teleport to you\.$/,
 		"tpa",
