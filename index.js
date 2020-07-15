@@ -221,7 +221,7 @@ function main(bot) {
 					if (op.includes(u)) {
 						send(args.join(" "));
 					} else {
-						send(`Sorry, you're not an operator.`);
+						send(`: Sorry, you're not an operator.`);
 					}
 					break;
 				case "kill":
@@ -244,15 +244,72 @@ function main(bot) {
 				case "github":
 					send(": https://github.com/uAliFurkanY/alibot-v2/");
 					break;
-				case "goto":
-					if (op.includes(u) || mode !== "private") {
-						send(`: Going to `);
+				case "ping":
+					if (args.length >= 1) {
+						bot.players[args[0]]
+							? send(
+									`: ${args[0]}'s ping is ${
+										bot.players[args[0]].ping
+									}ms.`
+							  )
+							: send(`: Player not found.`);
 					} else {
-						send(`: Sorry, the mode is private.`);
+						send(`: Your ping is ${bot.players[u].ping}ms.`);
+					}
+					break;
+				case "op":
+					if (op.includes(u) && args.length >= 1) {
+						op.push(args[0]);
+						say(`: Opped ${args[0]}.`);
+					} else {
+						send(`: The operators are ${op.join(", ")}.`);
+					}
+					break;
+				case "goto":
+					if (op.includes(u)) {
+						let coords = args.map((x) => parseInt(x) || 0);
+						bot.navigate.to(
+							new Vec3(coords[0], coords[1], coords[2])
+						);
+						send(`: Going to ${coords.join(" ")}.`);
+					} else {
+						send(`: Sorry, you're not an operator.`);
+					}
+					break;
+				case "stopGoto":
+					if (op.includes(u)) {
+						send(": Stopping...");
+						bot.navigate.stop();
+					} else {
+						send(`: Sorry, you're not an operator.`);
+					}
+					break;
+				case "tps":
+					send(`: The current tick rate is ${bot.getTps()} TPS.`);
+					break;
+				case "mode":
+					if (op.includes(u) && args.length >= 1) {
+						send(`: Changing the mode to ${args[0]}.`);
+						mode = args[0];
+					} else {
+						msg(`: The current mode is ${mode}`);
 					}
 					break;
 			}
 		}
+	});
+	bot.navigate.on("pathFound", function () {
+		send(`: Found path.`);
+	});
+	bot.navigate.on("cannotFind", function (closestPath) {
+		send(`: Cannot find path. Getting as close as possible.`);
+		bot.navigate.walk(closestPath);
+	});
+	bot.navigate.on("arrived", function () {
+		send(": Arrived.");
+	});
+	bot.navigate.on("interrupted", function () {
+		send(`: Got interrupted. Stopping...`);
 	});
 }
 
