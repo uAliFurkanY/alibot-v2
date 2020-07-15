@@ -203,7 +203,7 @@ function main(bot) {
 	bot.on("chat", (u, m) => {
 		m = m.trim();
 		u = u.trim();
-		log(`<${u}> ${m}`, LOG_CHAT);
+		//log(`<${u}> ${m}`, LOG_CHAT);
 	});
 }
 
