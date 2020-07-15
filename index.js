@@ -213,7 +213,12 @@ function main(bot) {
 			switch (command) {
 				case "say":
 					if (op.includes(u) || mode !== "private") {
-						send(`: ${u} » ${args.join(" ")}`);
+						let msg = args.join(" ");
+						if (msg.length > 50)
+							send(
+								`: Message can't be longer than 50 characters.`
+							);
+						else send(`: ${u} » ${args.join(" ")}`);
 					} else {
 						send(`: Sorry, the mode is private.`);
 					}
