@@ -267,7 +267,9 @@ function main(bot) {
 					break;
 				case "goto":
 					if (op.includes(u)) {
-						let coords = args.map((x) => parseInt(x) || 0);
+						let coords = args.map(
+							(x, i) => parseInt(x) || (i === 1 ? 5 : 0)
+						);
 						bot.navigate.to(
 							new Vec3(coords[0], coords[1], coords[2])
 						);
@@ -292,7 +294,7 @@ function main(bot) {
 						send(`: Changing the mode to ${args[0]}.`);
 						mode = args[0];
 					} else {
-						msg(`: The current mode is ${mode}`);
+						send(`: The current mode is ${mode}`);
 					}
 					break;
 			}
