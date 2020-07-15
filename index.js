@@ -214,6 +214,8 @@ function main(bot) {
 			let command = args.shift();
 			let realCmd = true;
 
+			if (LOG_CHAT) log(`CHAT <${u}> ${m}`, LOG_CHAT);
+
 			switch (command) {
 				case "say":
 					if (op.includes(u) || mode !== "private") {
@@ -368,7 +370,6 @@ function main(bot) {
 					break;
 			}
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
-			else log(`CHAT <${u}> ${m}`, LOG_CHAT);
 		}
 	});
 	bot.navigate.on("pathFound", function () {
