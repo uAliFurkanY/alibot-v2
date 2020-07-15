@@ -299,7 +299,7 @@ function main(bot) {
 				case "coords":
 					if (op.includes(u) || mode !== "private") {
 						send(
-							`: My coordinates are: ${bot.player.entity.position.x} ${bot.player.entity.position.y} ${bot.player.entity.position.z}.`
+							`: My coordinates are: ${bot.player.entity.position.x.toFixed(1)} ${bot.player.entity.position.y.toFixed(1)} ${bot.player.entity.position.z.toFixed(1)}.`
 						);
 					} else {
 						send(`: Sorry, the mode is private.`);
