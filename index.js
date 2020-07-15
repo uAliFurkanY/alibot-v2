@@ -156,11 +156,6 @@ function init(r) {
 	toSend = [];
 
 	lastkill = Date.now();
-	bot.chatAddPattern(
-		/^[a-zA-Z0-9_]{3,16} wants to teleport to you\.$/,
-		"tpa",
-		"received tpa"
-	);
 	bot.on("spawn", () => main(bot));
 	bot._client.once("session", () => {
 		session = bot._client.session;
@@ -189,6 +184,11 @@ function init(r) {
 function main(bot) {
 	navigatePlugin(bot);
 	tpsPlugin(bot);
+	bot.chatAddPattern(
+		/^[a-zA-Z0-9_]{3,16} wants to teleport to you\.$/,
+		"tpa",
+		"received tpa"
+	);
 	bot.on("tpa", (u, m) => {
 		let user = m.extra[0].text;
 		log("TPA " + user, LOG_CMD);
