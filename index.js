@@ -205,8 +205,8 @@ function main(bot) {
 		if (m.startsWith(prefix)) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
-            let command = args.shift();
-            let realCmd = true;
+			let command = args.shift();
+			let realCmd = true;
 
 			switch (command) {
 				case "say":
@@ -294,6 +294,15 @@ function main(bot) {
 						mode = args[0];
 					} else {
 						send(`: The current mode is ${mode}`);
+					}
+					break;
+				case "coords":
+					if (op.includes(u) || mode !== "private") {
+						send(
+							`: My coordinates are: ${bot.player.entity.position.x} ${bot.player.entity.position.y} ${bot.player.entity.position.z}.`
+						);
+					} else {
+						send(`: Sorry, the mode is private.`);
 					}
 					break;
 				default:
