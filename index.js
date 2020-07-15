@@ -151,6 +151,8 @@ function init(r) {
 	log(`INIT ${r}`, LOG_INIT);
 	bot = mineflayer.createBot(login);
 
+	toSend = [];
+
 	lastkill = Date.now();
 	bot.once("spawn", () => main(bot));
 	bot._client.once("session", () => {
