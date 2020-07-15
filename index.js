@@ -213,13 +213,44 @@ function main(bot) {
 				case "say":
 					if (op.includes(u) || mode !== "private") {
 						send(`: ${u} » ${args.join(" ")}`);
+					} else {
+						send(`: Sorry, the mode is private.`);
 					}
 					break;
 				case "sudo":
 					if (op.includes(u)) {
 						send(args.join(" "));
-                    }
-                    break;
+					} else {
+						send(`Sorry, you're not an operator.`);
+					}
+					break;
+				case "kill":
+					if (
+						op.includes(u) ||
+						(Date.now() >= lastkill + 15 * 1000 &&
+							mode !== "private")
+					) {
+						send(`/kill`);
+					} else if (mode === "private") {
+						send(`: Sorry, the mode is private.`);
+					} else {
+						send(`: Wait 15 seconds.`);
+					}
+					break;
+				case "disord":
+					send(": https://discord.gg/gr8y8hY");
+					break;
+				case "help":
+				case "github":
+					send(": https://github.com/uAliFurkanY/alibot-v2/");
+					break;
+				case "goto":
+					if (op.includes(u) || mode !== "private") {
+						send(`: Going to `);
+					} else {
+						send(`: Sorry, the mode is private.`);
+					}
+					break;
 			}
 		}
 	});
