@@ -188,3 +188,5 @@ function main(bot) {
 		console.log(...[m, u]);
 	});
 }
+
+init("FIRST");
