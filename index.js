@@ -306,9 +306,9 @@ function main(bot) {
 								op.splice(idx, 1);
 								send(`: Unignored ${args[0]}.`);
 							} else {
-                                ignored.push(args[0]);
-                                send(`: Ignored ${args[0]}.`);
-                            }
+								ignored.push(args[0]);
+								send(`: Ignored ${args[0]}.`);
+							}
 						} catch (e) {
 							send(`: Error.`);
 							console.log(e);
