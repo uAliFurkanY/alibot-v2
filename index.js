@@ -272,8 +272,9 @@ function main(bot) {
 								op.splice(idx, 1);
 								send(`: Deopped ${args[0]}.`);
 							} else send(`: ${args[0]} isn't an opeator.`);
-						} catch {
-							send(`: Error.`);
+						} catch (e) {
+                            send(`: Error.`);
+                            console.log(e);
 						}
 					} else if (args.length >= 1) {
 						send(`: Sorry, you're not an operator.`);
