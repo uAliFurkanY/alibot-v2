@@ -98,7 +98,6 @@ let bot;
 let toSend = [];
 let intervals = [
 	setInterval(() => {
-        console.log(toSend);
 		if (toSend.length !== 0 && spawned) {
 			bot.chat(toSend[0]);
 			log("SENT " + toSend[0], LOG_SENT);
