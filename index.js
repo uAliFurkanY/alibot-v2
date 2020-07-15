@@ -272,7 +272,6 @@ function main(bot) {
 						bot.navigate.to(
 							new Vec3(coords[0], coords[1], coords[2])
 						);
-						send(`: Going to ${coords.join(" ")}.`);
 					} else {
 						send(`: Sorry, you're not an operator.`);
 					}
