@@ -198,13 +198,14 @@ function main(bot) {
 	bot.on("chat", (u, m, t, cm) => {
 		m = m.trim();
 		u = u.trim();
+		let realCmd = true;
+
 		if (ignored.includes(u)) return 0;
 		if (cm.extra[0].text === "<" && cm.extra[1].text === "dc") return 0; // linked with discord
 		if (m.startsWith(prefix)) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
 			let command = args.shift();
-			let realCmd = true;
 
 			switch (command) {
 				case "say":
