@@ -198,7 +198,7 @@ function main(bot) {
 	bot.on("chat", (u, m, t, cm) => {
 		m = m.trim();
 		u = u.trim();
-		let realCmd = true;
+		let realCmd = false;
 
 		if (ignored.includes(u)) return 0;
 		if (
@@ -208,6 +208,7 @@ function main(bot) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
 			let command = args.shift();
+			realCmd = true;
 
 			switch (command) {
 				case "say":
