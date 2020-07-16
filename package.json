@@ -21,6 +21,7 @@
     "mineflayer-navigate": "0.0.10",
     "mineflayer-tps": "^1.0.1",
     "minimist": "^1.2.5",
+    "readline-sync": "^1.4.10",
     "vec3": "^0.1.6"
   }
 }
