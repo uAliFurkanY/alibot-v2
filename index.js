@@ -209,169 +209,8 @@ function main(bot) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
 			let command = args.shift();
-			realCmd = true;
+			realCmd = doCmd(command, args, u);
 
-			switch (command) {
-				case "say":
-					if (op.includes(u) || mode !== "private") {
-						let msg = args.join(" ");
-						if (msg.length > 50)
-							send(
-								`: Message can't be longer than 50 characters.`
-							);
-						else send(`: ${u} » ${args.join(" ")}`);
-					} else {
-						send(`: Sorry, the mode is private.`);
-					}
-					break;
-				case "sudo":
-					if (op.includes(u)) {
-						send(args.join(" "));
-					} else {
-						send(`: Sorry, you're not an operator.`);
-					}
-					break;
-				case "kill":
-					if (
-						op.includes(u) ||
-						(Date.now() >= lastkill + 15 * 1000 &&
-							mode !== "private")
-					) {
-						lastkill = Date.now();
-						send(`/kill`);
-					} else if (mode === "private") {
-						send(`: Sorry, the mode is private.`);
-					} else {
-						send(`: Wait 15 seconds.`);
-					}
-					break;
-				case "disord":
-					send(": https://discord.gg/gr8y8hY");
-					break;
-				case "help":
-				case "github":
-					send(": https://github.com/uAliFurkanY/alibot-v2/");
-					break;
-				case "ping":
-					if (args.length >= 1) {
-						bot.players[args[0]]
-							? send(
-									`: ${args[0]}'s ping is ${
-										bot.players[args[0]].ping
-									}ms.`
-							  )
-							: send(`: Player not found.`);
-					} else {
-						send(`: Your ping is ${bot.players[u].ping}ms.`);
-					}
-					break;
-				case "op":
-					if (op.includes(u) && args.length >= 1) {
-						op.push(args[0]);
-						send(`: Opped ${args[0]}.`);
-					} else {
-						send(`: The operators are ${op.join(", ")}.`);
-					}
-					break;
-				case "deop":
-					if (op.includes(u) && args.length >= 1) {
-						try {
-							let idx = op.findIndex(
-								(name) => name === args[0]
-							);
-							if (idx > -1) {
-								if (
-									(realOp.includes(op[idx]) ||
-										args[0] === username) &&
-									!realOp.includes(u)
-								)
-									send(`: You can't deop ${args[0]}.`);
-								else {
-									op.splice(idx, 1);
-									send(`: Deopped ${args[0]}.`);
-								}
-							} else send(`: ${args[0]} isn't an opeator.`);
-						} catch (e) {
-							send(`: Error.`);
-							console.log(e);
-						}
-					} else if (args.length >= 1) {
-						send(`: Sorry, you're not an operator.`);
-					} else {
-						send(`: Say a name.`);
-					}
-					break;
-				case "ignore":
-					if (op.includes(u) && args.length >= 1) {
-						try {
-							let idx = op.findIndex(
-								(name) => name === args[0]
-							);
-							if (idx > -1) {
-								op.splice(idx, 1);
-								send(`: Unignored ${args[0]}.`);
-							} else {
-								ignored.push(args[0]);
-								send(`: Ignored ${args[0]}.`);
-							}
-						} catch (e) {
-							send(`: Error.`);
-							console.log(e);
-						}
-					} else if (args.length >= 1) {
-						send(`: Sorry, you're not an operator.`);
-					} else {
-						send(`: Say a name.`);
-					}
-					break;
-				case "goto":
-					if (op.includes(u)) {
-						let coords = args.map(
-							(x, i) => parseInt(x) || (i === 1 ? 5 : 0)
-						);
-						bot.navigate.to(
-							new Vec3(coords[0], coords[1], coords[2])
-						);
-					} else {
-						send(`: Sorry, you're not an operator.`);
-					}
-					break;
-				case "stopGoto":
-					if (op.includes(u)) {
-						send(": Stopping...");
-						bot.navigate.stop();
-					} else {
-						send(`: Sorry, you're not an operator.`);
-					}
-					break;
-				case "tps":
-					send(`: The current tick rate is ${bot.getTps()} TPS.`);
-					break;
-				case "mode":
-					if (op.includes(u) && args.length >= 1) {
-						send(`: Changing the mode to ${args[0]}.`);
-						mode = args[0];
-					} else {
-						send(`: The current mode is ${mode}`);
-					}
-					break;
-				case "coords":
-					if (op.includes(u) || mode !== "private") {
-						send(
-							`: My coordinates are: ${bot.player.entity.position.x.toFixed(
-								1
-							)} ${bot.player.entity.position.y.toFixed(
-								1
-							)} ${bot.player.entity.position.z.toFixed(1)}.`
-						);
-					} else {
-						send(`: Sorry, the mode is private.`);
-					}
-					break;
-				default:
-					realCmd = false;
-					break;
-			}
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
 		}
 		if (LOG_CHAT && !realCmd) log(`CHAT <${u}> ${m}`, LOG_CHAT);
@@ -389,6 +228,163 @@ function main(bot) {
 	bot.navigate.on("interrupted", function () {
 		send(`: Got interrupted. Stopping...`);
 	});
+}
+
+function doCmd(command = "", args = [], u) {
+	let realCmd = true;
+	switch (command) {
+		case "say":
+			if (op.includes(u) || mode !== "private") {
+				let msg = args.join(" ");
+				if (msg.length > 50)
+					send(`: Message can't be longer than 50 characters.`);
+				else send(`: ${u} » ${args.join(" ")}`);
+			} else {
+				send(`: Sorry, the mode is private.`);
+			}
+			break;
+		case "sudo":
+			if (op.includes(u)) {
+				send(args.join(" "));
+			} else {
+				send(`: Sorry, you're not an operator.`);
+			}
+			break;
+		case "kill":
+			if (
+				op.includes(u) ||
+				(Date.now() >= lastkill + 15 * 1000 && mode !== "private")
+			) {
+				lastkill = Date.now();
+				send(`/kill`);
+			} else if (mode === "private") {
+				send(`: Sorry, the mode is private.`);
+			} else {
+				send(`: Wait 15 seconds.`);
+			}
+			break;
+		case "disord":
+			send(": https://discord.gg/gr8y8hY");
+			break;
+		case "help":
+		case "github":
+			send(": https://github.com/uAliFurkanY/alibot-v2/");
+			break;
+		case "ping":
+			if (args.length >= 1) {
+				bot.players[args[0]]
+					? send(
+							`: ${args[0]}'s ping is ${
+								bot.players[args[0]].ping
+							}ms.`
+					  )
+					: send(`: Player not found.`);
+			} else {
+				send(`: Your ping is ${bot.players[u].ping}ms.`);
+			}
+			break;
+		case "op":
+			if (op.includes(u) && args.length >= 1) {
+				op.push(args[0]);
+				send(`: Opped ${args[0]}.`);
+			} else {
+				send(`: The operators are ${op.join(", ")}.`);
+			}
+			break;
+		case "deop":
+			if (op.includes(u) && args.length >= 1) {
+				try {
+					let idx = op.findIndex((name) => name === args[0]);
+					if (idx > -1) {
+						if (
+							(realOp.includes(op[idx]) ||
+								args[0] === username) &&
+							!realOp.includes(u)
+						)
+							send(`: You can't deop ${args[0]}.`);
+						else {
+							op.splice(idx, 1);
+							send(`: Deopped ${args[0]}.`);
+						}
+					} else send(`: ${args[0]} isn't an opeator.`);
+				} catch (e) {
+					send(`: Error.`);
+					console.log(e);
+				}
+			} else if (args.length >= 1) {
+				send(`: Sorry, you're not an operator.`);
+			} else {
+				send(`: Say a name.`);
+			}
+			break;
+		case "ignore":
+			if (op.includes(u) && args.length >= 1) {
+				try {
+					let idx = op.findIndex((name) => name === args[0]);
+					if (idx > -1) {
+						op.splice(idx, 1);
+						send(`: Unignored ${args[0]}.`);
+					} else {
+						ignored.push(args[0]);
+						send(`: Ignored ${args[0]}.`);
+					}
+				} catch (e) {
+					send(`: Error.`);
+					console.log(e);
+				}
+			} else if (args.length >= 1) {
+				send(`: Sorry, you're not an operator.`);
+			} else {
+				send(`: Say a name.`);
+			}
+			break;
+		case "goto":
+			if (op.includes(u)) {
+				let coords = args.map(
+					(x, i) => parseInt(x) || (i === 1 ? 5 : 0)
+				);
+				bot.navigate.to(new Vec3(coords[0], coords[1], coords[2]));
+			} else {
+				send(`: Sorry, you're not an operator.`);
+			}
+			break;
+		case "stopGoto":
+			if (op.includes(u)) {
+				send(": Stopping...");
+				bot.navigate.stop();
+			} else {
+				send(`: Sorry, you're not an operator.`);
+			}
+			break;
+		case "tps":
+			send(`: The current tick rate is ${bot.getTps()} TPS.`);
+			break;
+		case "mode":
+			if (op.includes(u) && args.length >= 1) {
+				send(`: Changing the mode to ${args[0]}.`);
+				mode = args[0];
+			} else {
+				send(`: The current mode is ${mode}`);
+			}
+			break;
+		case "coords":
+			if (op.includes(u) || mode !== "private") {
+				send(
+					`: My coordinates are: ${bot.player.entity.position.x.toFixed(
+						1
+					)} ${bot.player.entity.position.y.toFixed(
+						1
+					)} ${bot.player.entity.position.z.toFixed(1)}.`
+				);
+			} else {
+				send(`: Sorry, the mode is private.`);
+			}
+			break;
+		default:
+			realCmd = false;
+			break;
+	}
+	return realCmd;
 }
 
 init("FIRST");
