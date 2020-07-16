@@ -201,8 +201,10 @@ function main(bot) {
 		let realCmd = true;
 
 		if (ignored.includes(u)) return 0;
-		if (cm.extra[0].text === "<" && cm.extra[1].text === "dc") return 0; // linked with discord
-		if (m.startsWith(prefix)) {
+		if (
+			m.startsWith(prefix) &&
+			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc")
+		) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
 			let command = args.shift();
