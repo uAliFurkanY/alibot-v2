@@ -285,8 +285,12 @@ function doCmd(command = "", args = [], u) {
 			break;
 		case "op":
 			if (op.includes(u) && args.length >= 1) {
-				op.push(args[0]);
-				send(`: Opped ${args[0]}.`);
+				if (op.includes(args[0])) {
+					send(`: ${op.join(", ")} is already an operator.`);
+				} else {
+					op.push(args[0]);
+					send(`: Opped ${args[0]}.`);
+				}
 			} else {
 				send(`: The operators are ${op.join(", ")}.`);
 			}
