@@ -83,6 +83,7 @@ const rl = readline.createInterface({
 
 let ignored = config.IGNORED.split(",");
 let op = config.OP.split(",");
+let realOp = config.OP.split(",");
 console.log("Operators: " + op);
 
 let lastkill = Date.now();
@@ -279,8 +280,16 @@ function main(bot) {
 								(name) => name === args[0]
 							);
 							if (idx > -1) {
-								op.splice(idx, 1);
-								send(`: Deopped ${args[0]}.`);
+								if (
+									(realOp.includes(op[idx]) ||
+										args[0] === username) &&
+									!realOp.includes(u)
+								)
+									send(`: You can't deop ${args[0]}.`);
+								else {
+									op.splice(idx, 1);
+									send(`: Deopped ${args[0]}.`);
+								}
 							} else send(`: ${args[0]} isn't an opeator.`);
 						} catch (e) {
 							send(`: Error.`);
