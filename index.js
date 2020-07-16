@@ -13,7 +13,7 @@ let delays = [
 
 try {
 	// arg > env > conf
-	let conf = require(path.join(__dirname, "config.json"));
+	let conf = require(path.resolve("./config.json"));
 	config.WEBSITE =
 		arg.w ||
 		process.env.CONF_WEBSITE ||
