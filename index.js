@@ -324,9 +324,9 @@ function doCmd(command = "", args = [], u) {
 		case "ignore":
 			if (op.includes(u) && args.length >= 1) {
 				try {
-					let idx = op.findIndex((name) => name === args[0]);
+					let idx = ignored.findIndex((name) => name === args[0]);
 					if (idx > -1) {
-						op.splice(idx, 1);
+						ignored.splice(idx, 1);
 						send(`: Unignored ${args[0]}.`);
 					} else {
 						ignored.push(args[0]);
