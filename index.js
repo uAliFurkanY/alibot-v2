@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs");
 
 let config = arg;
-let envFile = path.join(__dirname, arg.e || arg.env || ".env");
 let delays = [
 	[0 * 1000, 5 * 1000, 5 * 60 * 1000, 0.5 * 1000],
 	[5 * 1000, 10 * 1000, 10 * 60 * 1000, 1.5 * 1000],
@@ -11,14 +10,6 @@ let delays = [
 	[20 * 1000, 40 * 1000, 40 * 60 * 1000, 5 * 1000],
 	[5 * 1000, 15 * 1000, 30 * 60 * 1000, 2 * 1000],
 ];
-
-try {
-	require("dotenv").config({ path: envFile });
-} catch {}
-
-try {
-	require("dotenv").config({ path: envFile });
-} catch {}
 
 try {
 	// arg > env > conf
@@ -214,8 +205,6 @@ function main(bot) {
 			let command = args.shift();
 			let realCmd = true;
 
-			if (LOG_CHAT) log(`CHAT <${u}> ${m}`, LOG_CHAT);
-
 			switch (command) {
 				case "say":
 					if (op.includes(u) || mode !== "private") {
@@ -371,6 +360,7 @@ function main(bot) {
 			}
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
 		}
+		if (LOG_CHAT && !realCmd) log(`CHAT <${u}> ${m}`, LOG_CHAT);
 	});
 	bot.navigate.on("pathFound", function () {
 		send(`: Found path.`);

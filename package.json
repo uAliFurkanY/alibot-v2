@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/uAliFurkanY/alibot-v2#readme",
   "dependencies": {
-    "mineflayer": "^2.23.0",
+    "mineflayer": "^2.24.0",
     "mineflayer-navigate": "0.0.10",
     "mineflayer-tps": "^1.0.1",
     "minimist": "^1.2.5",
