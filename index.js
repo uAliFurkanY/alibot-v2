@@ -284,7 +284,6 @@ function doCmd(command = "", args = [], u, out = send) {
 						let toDo = args.shift();
 						let realCmd = doCmd(toDo, args, targetUser, out);
 						if (realCmd) {
-							out(`: Issued command ${toDo} as ${targetUser} with arguments '${args.join(" ")}'.`);
 							log(`CMD ${targetUser} ${toDo} ${args.join(" ")}`, LOG_CMD);
 						}
 					} else {
