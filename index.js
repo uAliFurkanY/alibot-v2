@@ -269,13 +269,35 @@ function doCmd(command = "", args = [], u, out = send) {
 				out(`: Sorry, the mode is private.`);
 			}
 			break;
-		case "sudo":
+		case "sudo": // Makes the bot say something
 			if (op.includes(u)) {
 				send(args.join(" "));
 			} else {
 				out(`: Sorry, you're not an operator.`);
 			}
 			break;
+		case "su": // parses a fake command as another person.
+			if (realOp.includes(u) || u === (username || "alib0t")) {
+				if (args.length >= 1) {
+					if (args.length >= 2) {
+						let targetUser = args.shift();
+						let toDo = args.shift();
+						let realCmd = doCmd(toDo, args, targetUser, out);
+						if (realCmd) {
+							out(`: Issued command ${toDo} as ${targetUser} with arguments '${args.join(" ")}'.`);
+							log(`CMD ${u} ${cmd}`, LOG_CMD);
+						}
+					} else {
+						out(`: Say a command.`);
+					}
+				} else {
+					out(`: Say a name.`);
+				}
+			} else if (op.includes(u)) {
+				out(`: Sorry, you're not allowed to use this command.`);
+			} else {
+				out(`: Sorry, you're not an operator.`);
+			}
 		case "kill":
 			if (
 				op.includes(u) ||
@@ -417,7 +439,7 @@ function doCmd(command = "", args = [], u, out = send) {
 		case "prefix":
 			if (op.includes(u) && args.length >= 1) {
 				prefix = args[0];
-				out(`: The prefix is set to ${prefix}.`);
+				out(`: The prefix is set to '${prefix}'.`);
 			} else {
 				out(`: The prefix is '${prefix}'.`);
 			}
@@ -436,7 +458,7 @@ function doCmd(command = "", args = [], u, out = send) {
 					console.log(e);
 				}
 			} else if (op.includes(u)) {
-				out(`: Sorry, you can't save.`);
+				out(`: Sorry, you're not allowed to use this command.`);
 			} else {
 				out(`: Sorry, you are not an operator.`);
 			}
