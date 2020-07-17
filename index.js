@@ -209,7 +209,7 @@ function main(bot) {
 		let mArr = m.split(" ");
 		u = mArr.shift(); // username
 		mArr.shift(); // whispers:
-		let fullM = mArr.join("");
+		let fullM = mArr.join(" ");
 
 		if (ignored.includes(u)) return 0;
 
