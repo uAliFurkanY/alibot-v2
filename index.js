@@ -203,7 +203,7 @@ function main(bot) {
 		}
 	});
 	bot.on("msg", (u, cm) => {
-		let m = cm[0].text.trim();
+		let m = cm.extra[0].text.trim();
 		let realCmd = false;
 
 		let mArr = m.split(" ")[0];
