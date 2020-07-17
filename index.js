@@ -200,6 +200,7 @@ function main(bot) {
 		m = m.trim();
 		u = u.trim();
 		let realCmd = false;
+		console.log(cm);
 
 		if (ignored.includes(u)) return 0;
 		if (
