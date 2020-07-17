@@ -207,21 +207,10 @@ function main(bot) {
 			m.startsWith(prefix) &&
 			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc")
 		) {
-			let cmd, args, command;
-			if (
-				cm.extra.length === 1 &&
-				cm.extra[0].color === "light_purple"
-			) {
-				msg = true;
-				cmd = m.substr(1).trim();
-				args = cmd.split(" ");
-				command = args.shift();
-				u = cm.extra[0].text.split(" ")[0];
-			} else {
-				cmd = m.substr(1).trim();
-				args = cmd.split(" ");
-				command = args.shift();
-			}
+			let cmd = m.substr(1).trim();
+			let args = cmd.split(" ");
+			let command = args.shift();
+
 			realCmd = doCmd(command, args, u);
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
 		}
