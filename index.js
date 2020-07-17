@@ -395,4 +395,10 @@ function doCmd(command = "", args = [], u, out = send) {
 
 init("FIRST");
 
-rl.on("line");
+rl.on("line", (c) => {
+	let args = c.split(" ");
+	let command = args.shift();
+	doCmd(command, args, username | "alib0t", (x) =>
+		log("OUT " + x, LOG_CMD)
+	);
+});
