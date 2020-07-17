@@ -200,6 +200,7 @@ function main(bot) {
 		m = m.trim();
 		u = u.trim();
 		let realCmd = false;
+		let msg = false;
 		console.log(cm);
 
 		if (ignored.includes(u)) return 0;
@@ -207,14 +208,26 @@ function main(bot) {
 			m.startsWith(prefix) &&
 			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc")
 		) {
-			let cmd = m.substr(1).trim();
-			let args = cmd.split(" ");
-			let command = args.shift();
+			let cmd, args, command;
+			if (
+				cm.extra.length === 1 &&
+				cm.extra[0].color === "light_purple"
+			) {
+				msg = true;
+				cmd = m.trim();
+				args = cmd.split(" ");
+				command = args.shift();
+				u = cm.extra[0].text.split(" ")[0];
+			} else {
+				cmd = m.substr(1).trim();
+				args = cmd.split(" ");
+				command = args.shift();
+			}
 			realCmd = doCmd(command, args, u);
-
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
 		}
-		if (LOG_CHAT && !realCmd) log(`CHAT <${u}> ${m}`, LOG_CHAT);
+		if (LOG_CHAT && !realCmd)
+			log(`${msg ? "CHAT" : "MSG"} <${u}> ${m}`, LOG_CHAT);
 	});
 	bot.navigate.on("pathFound", function () {
 		send(`: Found path.`);
