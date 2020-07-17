@@ -264,7 +264,7 @@ function doCmd(command = "", args = [], u, out = send) {
 				let msg = args.join(" ");
 				if (msg.length > 50)
 					out(`: Message can't be longer than 50 characters.`);
-				else out(`: ${u} » ${args.join(" ")}`);
+				else send(`: ${u} » ${args.join(" ")}`);
 			} else {
 				out(`: Sorry, the mode is private.`);
 			}
