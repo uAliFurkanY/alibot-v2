@@ -197,6 +197,9 @@ function main(bot) {
 		}
 	});
 	bot.on("chat", (u, m, t, cm) => {
+		console.log(cm);
+		console.log(m);
+		console.log(u);
 		m = m.trim();
 		u = u.trim();
 		let realCmd = false;
