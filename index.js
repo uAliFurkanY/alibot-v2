@@ -201,7 +201,6 @@ function main(bot) {
 		u = u.trim();
 		let realCmd = false;
 		let msg = false;
-		console.log(cm);
 
 		if (ignored.includes(u)) return 0;
 		if (
