@@ -319,8 +319,6 @@ function doCmd(command = "", args = [], u, out = send) {
 				}
 			} else if (args.length >= 1) {
 				out(`: Sorry, you're not an operator.`);
-			} else {
-				out(`: The ignored people are ${ignored.join(", ")}.`);
 			}
 			break;
 		case "ignore":
@@ -341,7 +339,7 @@ function doCmd(command = "", args = [], u, out = send) {
 			} else if (args.length >= 1) {
 				out(`: Sorry, you're not an operator.`);
 			} else {
-				out(`: Say a name.`);
+				out(`: The ignored people are ${ignored.join(", ")}.`);
 			}
 			break;
 		case "goto":
