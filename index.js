@@ -230,24 +230,24 @@ function main(bot) {
 	});
 }
 
-function doCmd(command = "", args = [], u) {
+function doCmd(command = "", args = [], u, out = send) {
 	let realCmd = true;
 	switch (command) {
 		case "say":
 			if (op.includes(u) || mode !== "private") {
 				let msg = args.join(" ");
 				if (msg.length > 50)
-					send(`: Message can't be longer than 50 characters.`);
-				else send(`: ${u} » ${args.join(" ")}`);
+					out(`: Message can't be longer than 50 characters.`);
+				else out(`: ${u} » ${args.join(" ")}`);
 			} else {
-				send(`: Sorry, the mode is private.`);
+				out(`: Sorry, the mode is private.`);
 			}
 			break;
 		case "sudo":
 			if (op.includes(u)) {
-				send(args.join(" "));
+				out(args.join(" "));
 			} else {
-				send(`: Sorry, you're not an operator.`);
+				out(`: Sorry, you're not an operator.`);
 			}
 			break;
 		case "kill":
@@ -256,45 +256,45 @@ function doCmd(command = "", args = [], u) {
 				(Date.now() >= lastkill + 15 * 1000 && mode !== "private")
 			) {
 				lastkill = Date.now();
-				send(`/kill`);
+				out(`/kill`);
 			} else if (mode === "private") {
-				send(`: Sorry, the mode is private.`);
+				out(`: Sorry, the mode is private.`);
 			} else {
-				send(`: Wait 15 seconds.`);
+				out(`: Wait 15 seconds.`);
 			}
 			break;
 		case "disord":
-			send(": https://discord.gg/gr8y8hY");
+			out(": https://discord.gg/gr8y8hY");
 			break;
 		case "help":
 		case "github":
-			send(": https://github.com/uAliFurkanY/alibot-v2/");
+			out(": https://github.com/uAliFurkanY/alibot-v2/");
 			break;
 		case "ping":
 			if (args.length >= 1) {
 				bot.players[args[0]]
-					? send(
+					? out(
 							`: ${args[0]}'s ping is ${
 								bot.players[args[0]].ping
 							}ms.`
 					  )
-					: send(`: Player not found.`);
+					: out(`: Player not found.`);
 			} else {
-				send(`: Your ping is ${bot.players[u].ping}ms.`);
+				out(`: Your ping is ${bot.players[u].ping}ms.`);
 			}
 			break;
 		case "op":
 			if (op.includes(u) && args.length >= 1) {
 				if (op.includes(args[0])) {
-					send(`: ${op.join(", ")} is already an operator.`);
+					out(`: ${op.join(", ")} is already an operator.`);
 				} else {
 					op.push(args[0]);
-					send(`: Opped ${args[0]}.`);
+					out(`: Opped ${args[0]}.`);
 				}
 			} else if (args.length >= 1) {
-				send(`: Sorry, you're not an operator.`);
+				out(`: Sorry, you're not an operator.`);
 			} else {
-				send(`: The operators are ${op.join(", ")}.`);
+				out(`: The operators are ${op.join(", ")}.`);
 			}
 			break;
 		case "deop":
@@ -307,20 +307,20 @@ function doCmd(command = "", args = [], u) {
 								args[0] === username) &&
 							!realOp.includes(u)
 						)
-							send(`: You can't deop ${args[0]}.`);
+							out(`: You can't deop ${args[0]}.`);
 						else {
 							op.splice(idx, 1);
-							send(`: Deopped ${args[0]}.`);
+							out(`: Deopped ${args[0]}.`);
 						}
-					} else send(`: ${args[0]} isn't an opeator.`);
+					} else out(`: ${args[0]} isn't an opeator.`);
 				} catch (e) {
-					send(`: Error.`);
+					out(`: Error.`);
 					console.log(e);
 				}
 			} else if (args.length >= 1) {
-				send(`: Sorry, you're not an operator.`);
+				out(`: Sorry, you're not an operator.`);
 			} else {
-				send(`: The ignored people are ${ignored.join(", ")}.`);
+				out(`: The ignored people are ${ignored.join(", ")}.`);
 			}
 			break;
 		case "ignore":
@@ -329,19 +329,19 @@ function doCmd(command = "", args = [], u) {
 					let idx = ignored.findIndex((name) => name === args[0]);
 					if (idx > -1) {
 						ignored.splice(idx, 1);
-						send(`: Unignored ${args[0]}.`);
+						out(`: Unignored ${args[0]}.`);
 					} else {
 						ignored.push(args[0]);
-						send(`: Ignored ${args[0]}.`);
+						out(`: Ignored ${args[0]}.`);
 					}
 				} catch (e) {
-					send(`: Error.`);
+					out(`: Error.`);
 					console.log(e);
 				}
 			} else if (args.length >= 1) {
-				send(`: Sorry, you're not an operator.`);
+				out(`: Sorry, you're not an operator.`);
 			} else {
-				send(`: Say a name.`);
+				out(`: Say a name.`);
 			}
 			break;
 		case "goto":
@@ -351,31 +351,31 @@ function doCmd(command = "", args = [], u) {
 				);
 				bot.navigate.to(new Vec3(coords[0], coords[1], coords[2]));
 			} else {
-				send(`: Sorry, you're not an operator.`);
+				out(`: Sorry, you're not an operator.`);
 			}
 			break;
 		case "stopGoto":
 			if (op.includes(u)) {
-				send(": Stopping...");
+				out(": Stopping...");
 				bot.navigate.stop();
 			} else {
-				send(`: Sorry, you're not an operator.`);
+				out(`: Sorry, you're not an operator.`);
 			}
 			break;
 		case "tps":
-			send(`: The current tick rate is ${bot.getTps()} TPS.`);
+			out(`: The current tick rate is ${bot.getTps()} TPS.`);
 			break;
 		case "mode":
 			if (op.includes(u) && args.length >= 1) {
-				send(`: Changing the mode to ${args[0]}.`);
+				out(`: Changing the mode to ${args[0]}.`);
 				mode = args[0];
 			} else {
-				send(`: The current mode is ${mode}`);
+				out(`: The current mode is ${mode}`);
 			}
 			break;
 		case "coords":
 			if (op.includes(u) || mode !== "private") {
-				send(
+				out(
 					`: My coordinates are: ${bot.player.entity.position.x.toFixed(
 						1
 					)} ${bot.player.entity.position.y.toFixed(
@@ -383,7 +383,7 @@ function doCmd(command = "", args = [], u) {
 					)} ${bot.player.entity.position.z.toFixed(1)}.`
 				);
 			} else {
-				send(`: Sorry, the mode is private.`);
+				out(`: Sorry, the mode is private.`);
 			}
 			break;
 		default:
@@ -395,4 +395,4 @@ function doCmd(command = "", args = [], u) {
 
 init("FIRST");
 
-rl.on("line", send);
+rl.on("line");
