@@ -40,9 +40,7 @@ Lists the operators or makes someone an operator. (operators only)
 
 #### deop \<person>
 
-Opposite of `op`. (operators only)
-
-Note: People that has been made an operator with `op` can't deop operators in the configuration or the bot itself.
+Opposite of `op`. Removes operator status. (operators only [1](#1))
 
 #### ignore [person]
 

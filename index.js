@@ -331,7 +331,7 @@ function doCmd(command = "", args = [], u, out = send) {
 						if (
 							(realOp.includes(op[idx]) ||
 								args[0] === username) &&
-							!realOp.includes(u)
+							!(realOp.includes(u) || u === username)
 						)
 							out(`: You can't deop ${args[0]}.`);
 						else {
@@ -355,7 +355,7 @@ function doCmd(command = "", args = [], u, out = send) {
 						if (
 							(realOp.includes(op[idx]) ||
 								args[0] === username) &&
-							!realOp.includes(u)
+							!(realOp.includes(u) || u === username)
 						)
 							out(`: You can't ignore ${args[0]}.`);
 						else {
