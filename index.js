@@ -186,6 +186,12 @@ function main(bot) {
 		"tpa",
 		"received tpa"
 	);
+	bot.chatAddPattern(
+		/^[a-zA-Z0-9_]{3,16} whispers:/,
+		"msg",
+		"received msg"
+	);
+
 	bot.on("tpa", (u, m) => {
 		let user = m.extra[0].text;
 		if (ignored.includes(user)) return 0;
@@ -196,19 +202,35 @@ function main(bot) {
 			send(`/tpn ${user}`);
 		}
 	});
+	bot.on("msg", (u, cm) => {
+		let m = cm[0].text.trim();
+		let realCmd = false;
+
+		let mArr = m.split(" ")[0];
+		u = mArr.shift(); // username
+		mArr.shift(); // whispers:
+		let fullM = mArr.join("");
+
+		if (ignored.includes(u)) return 0;
+
+		let command = mArr.shift(); // command
+		let args = mArr; // arg0 arg1 arg2
+
+		realCmd = doCmd(command, args, u, (x) => send(`/msg ${u} ${x}`));
+
+		if (realCmd) log(`CMD ${u} ${fullM}`);
+		else if (LOG_CHAT) log(`MSG ${u} ${fullM}`);
+	});
 	bot.on("chat", (u, m, t, cm) => {
-		console.log(cm);
-		console.log(m);
-		console.log(u);
 		m = m.trim();
 		u = u.trim();
 		let realCmd = false;
-		let msg = false;
 
 		if (ignored.includes(u)) return 0;
 		if (
 			m.startsWith(prefix) &&
-			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc")
+			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc") &&
+			!(cm.length === 1 && cm.extra[0].color === "light_purple")
 		) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
@@ -217,8 +239,7 @@ function main(bot) {
 			realCmd = doCmd(command, args, u);
 			if (realCmd) log(`CMD ${u} ${cmd}`, LOG_CMD);
 		}
-		if (LOG_CHAT && !realCmd)
-			log(`${msg ? "CHAT" : "MSG"} <${u}> ${m}`, LOG_CHAT);
+		if (LOG_CHAT && !realCmd) log(`CHAT <${u}> ${m}`, LOG_CHAT);
 	});
 	bot.navigate.on("pathFound", function () {
 		send(`: Found path.`);
