@@ -232,7 +232,7 @@ function main(bot) {
 			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc") &&
 			!(cm.extra.length === 1 && cm.extra[0].color === "light_purple")
 		) {
-			let cmd = m.substr(1).trim();
+			let cmd = m.replace(prefix, "").trim();
 			let args = cmd.split(" ");
 			let command = args.shift();
 
