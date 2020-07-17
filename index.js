@@ -29,8 +29,7 @@ try {
 	config.MODE = arg.m || process.env.CONF_MODE || conf.MODE || "public";
 	config.ACTIVE =
 		arg.a || process.env.CONF_ACTIVE || conf.ACTIVE || "true";
-	config.DELAYS =
-		delays[+arg.d || +process.env.CONF_DELAYS || +conf.DELAYS || 4];
+	config.DELAYS = +arg.d || +process.env.CONF_DELAYS || +conf.DELAYS || 4;
 	config.LOGLEVEL =
 		arg.l || process.env.CONF_LOGLEVEL || conf.LOGLEVEL || 4;
 	config.PREFIX = arg.r || process.env.CONF_PREFIX || conf.PREFIX || ":";
@@ -43,6 +42,7 @@ try {
 	process.exit(1);
 }
 
+const delay = delays[config.DELAYS];
 const LOG_ERR = config.LOGLEVEL >= 1;
 const LOG_STAT = LOG_ERR;
 const LOG_INIT = config.LOGLEVEL >= 2;
@@ -99,7 +99,7 @@ let intervals = [
 			log("SENT " + toSend[0], LOG_SENT);
 			toSend.shift();
 		}
-	}, config.DELAYS[3]),
+	}, delay[3]),
 ];
 let intervalNames = ["0: MAIN MESSAGE LOOP"];
 
@@ -160,14 +160,14 @@ function init(r) {
 			tps = bot.getTps();
 		} catch {}
 		log("END " + (tps !== undefined ? "TPS " + tps : ""), LOG_END);
-		setTimeout(() => init("End"), config.DELAYS[1]);
+		setTimeout(() => init("End"), delay[1]);
 	});
 	bot.on("error", (m) => {
 		if (m.message.includes("Invalid session.")) {
 			session = false;
 			init("Reloading Session");
 		} else if (m.message.includes("Invalid credentials.")) {
-			setTimeout(() => init("Error"), config.DELAYS[2]);
+			setTimeout(() => init("Error"), delay[2]);
 		} else {
 			log("ERROR " + m.message, LOG_ERR);
 		}
@@ -429,8 +429,8 @@ function doCmd(command = "", args = [], u, out = send) {
 		case "save":
 			if (realOp.includes(u)) {
 				try {
-					config.OP = op;
-					config.IGNORED = ignored;
+					config.OP = op.join(",");
+					config.IGNORED = ignored.join(",");
 					config.MODE = mode;
 					config.PREFIX = prefix;
 					fs.writeFileSync("config.json", JSON.stringify(config));
