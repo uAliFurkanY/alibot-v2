@@ -206,7 +206,7 @@ function main(bot) {
 		let m = cm.extra[0].text.trim();
 		let realCmd = false;
 
-		let mArr = m.split(" ")[0];
+		let mArr = m.split(" ");
 		u = mArr.shift(); // username
 		mArr.shift(); // whispers:
 		let fullM = mArr.join("");
