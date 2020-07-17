@@ -213,7 +213,7 @@ function main(bot) {
 				cm.extra[0].color === "light_purple"
 			) {
 				msg = true;
-				cmd = m.trim();
+				cmd = m.substr(1).trim();
 				args = cmd.split(" ");
 				command = args.shift();
 				u = cm.extra[0].text.split(" ")[0];
