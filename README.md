@@ -38,15 +38,15 @@ Same as `help`.
 
 Lists the operators or makes someone an operator. (operators only)
 
-#### deop <person>
+#### deop \<person\>
 
 Opposite of `op`. (operators only)
 
 Note: People that has been made an operator with `op` can't deop operators in the configurator or the bot itself.
 
-#### ignore <person>
+#### ignore [person]
 
-Ignores or unignores all messages by a person. (operators only)
+Tells you the list of ignored people, ignores, unignores all messages by a person. (operators only)
 
 Note: Doesn't use `/ignore`.
 
