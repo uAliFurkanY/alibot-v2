@@ -291,6 +291,8 @@ function doCmd(command = "", args = [], u) {
 					op.push(args[0]);
 					send(`: Opped ${args[0]}.`);
 				}
+			} else if (args.length >= 1) {
+				send(`: Sorry, you're not an operator.`);
 			} else {
 				send(`: The operators are ${op.join(", ")}.`);
 			}
