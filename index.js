@@ -21,8 +21,9 @@ try {
 		"https://github.com/uAliFurkanY/alibot-mc/"; // You probably shouldn't change this.
 	config.HOST = arg.h || process.env.CONF_HOST || conf.HOST || "0b0t.org";
 	config.USERNAME = arg.u || process.env.CONF_USERNAME || conf.USERNAME;
-	config.PASSWORD = arg.p || process.env.CONF_PASSWORD || conf.PASSWORD;
-	config.OP = arg.o || process.env.CONF_OP || conf.OP || "AliFurkan";
+	config.PASSWORD =
+		arg.p || process.env.CONF_PASSWORD || conf.PASSWORD || false;
+	config.OP = arg.o || process.env.CONF_OP || conf.OP || "";
 	config.IGNORED =
 		arg.i || process.env.CONF_IGNORED || conf.IGNORED || "";
 	config.MODE = arg.m || process.env.CONF_MODE || conf.MODE || "public";
@@ -46,7 +47,6 @@ const LOG_ERR = config.LOGLEVEL >= 1;
 const LOG_STAT = LOG_ERR;
 const LOG_INIT = config.LOGLEVEL >= 2;
 const LOG_END = config.LOGLEVEL >= 3;
-const LOG_KICK = LOG_END;
 const LOG_SENT = config.LOGLEVEL >= 4;
 const LOG_CMD = LOG_SENT;
 const LOG_CHAT = config.LOGLEVEL >= 5;
@@ -289,7 +289,7 @@ function doCmd(command = "", args = [], u, out = send) {
 				out(`: Wait 15 seconds.`);
 			}
 			break;
-		case "disord":
+		case "discord":
 			out(": https://discord.gg/gr8y8hY");
 			break;
 		case "help":
@@ -416,6 +416,33 @@ function doCmd(command = "", args = [], u, out = send) {
 				);
 			} else {
 				out(`: Sorry, the mode is private.`);
+			}
+			break;
+		case "prefix":
+			if (op.includes(u) && args.length >= 1) {
+				prefix = args[0];
+				out(`: The prefix is set to ${prefix}.`);
+			} else {
+				out(`: The prefix is '${prefix}'.`);
+			}
+			break;
+		case "save":
+			if (realOp.includes(u)) {
+				try {
+					config.OP = op;
+					config.IGNORED = ignored;
+					config.MODE = mode;
+					config.PREFIX = prefix;
+					fs.writeFileSync("config.json", JSON.stringify(config));
+					out(`: Saved.`);
+				} catch (e) {
+					out(`: Error.`);
+					console.log(e);
+				}
+			} else if (op.includes(u)) {
+				out(`: Sorry, you can't save.`);
+			} else {
+				out(`: Sorry, you are not an operator.`);
 			}
 			break;
 		default:

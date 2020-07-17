@@ -38,17 +38,17 @@ Same as `help`.
 
 Lists the operators or makes someone an operator. (operators only)
 
-#### deop \<person\>
+#### deop \<person>
 
 Opposite of `op`. (operators only)
 
-Note: People that has been made an operator with `op` can't deop operators in the configurator or the bot itself.
+Note: People that has been made an operator with `op` can't deop operators in the configuration or the bot itself.
 
 #### ignore [person]
 
 Tells you the list of ignored people, ignores, unignores all messages by a person. (operators only)
 
-Note: Doesn't use `/ignore`.
+Note: Doesn't use `/ignore`. People that has been made an operator with `op` can't ignore operators in the configuration or the bot itself.
 
 #### ping [person]
 
@@ -62,7 +62,7 @@ Tells you the calculated TPS of the server.
 
 Tells you the coordinates of the bot. (public mode only)
 
-#### goto [<x> <y> <z>]
+#### goto [\<x> \<y> \<z>]
 
 Navigates to the specified coordinates. (operators only)
 
@@ -74,33 +74,41 @@ Stops the current navigation. (operators only)
 
 Note: Currently broken. `mineflayer-navigate` devs have to fix it.
 
+#### prefix [prefix]
+
+Tells you the prefix or changes it. (operators only)
+
+#### save
+
+Saves the current configuration to `config.json`. (operators only [1](#1))
+
 ## Configuration
 
 The configuration is stored in JSON format and in the `config.json` format.
 
-#### HOST
+#### HOST ("0b0t.org")
 
 Specifies the HOST to connect to.
 
-#### USERNAME
+#### USERNAME (undefined)
 
 Email address (or username if offline mode) of the account you want to use.
 
-#### PASSWORD
+#### PASSWORD (false)
 
 Password of the Minecraft account.
 
 Note: Leave blank if you want to use offline mode.
 
-#### OP
+#### OP ("")
 
 List of operators seperated with `,`.
 
-#### MODE
+#### MODE ("public")
 
 `public` or `private`. Self explanatory.
 
-#### DELAYS
+#### DELAYS (4)
 
 Specifies the delays between actions.
 
@@ -112,11 +120,11 @@ Values:
 3. "End: 40s, Error: 40m, Message: 5s"
 4. "End: 15s, Error: 30m, Message: 2s (Recommended)"
 
-#### IGNORED
+#### IGNORED ("")
 
 List of ignored people seperated with `,`.
 
-#### LOGLEVEL
+#### LOGLEVEL (4)
 
 Specifies the loglevel.
 
@@ -128,3 +136,13 @@ Values:
 3. "End / Kick (+TPS)"
 4. "Sent MSGs / Commands (recommended)"
 5. "Chat / Sleep / Wakeup"
+
+#### PREFIX (":")
+
+Prefix for chat commands.
+
+### More
+
+##### 1
+
+Only the operators in the original configuration.
