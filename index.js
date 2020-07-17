@@ -352,11 +352,7 @@ function doCmd(command = "", args = [], u, out = send) {
 				try {
 					let idx = ignored.findIndex((name) => name === args[0]);
 					if (idx > -1) {
-						if (
-							(realOp.includes(op[idx]) ||
-								args[0] === username) &&
-							!(realOp.includes(u) || u === username)
-						)
+						if (op.includes(args[0]))
 							out(`: You can't ignore ${args[0]}.`);
 						else {
 							ignored.splice(idx, 1);
