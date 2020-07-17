@@ -230,7 +230,7 @@ function main(bot) {
 		if (
 			m.startsWith(prefix) &&
 			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc") &&
-			!(cm.length === 1 && cm.extra[0].color === "light_purple")
+			!(cm.extra.length === 1 && cm.extra[0].color === "light_purple")
 		) {
 			let cmd = m.substr(1).trim();
 			let args = cmd.split(" ");
