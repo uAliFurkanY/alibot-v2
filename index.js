@@ -245,7 +245,7 @@ function doCmd(command = "", args = [], u, out = send) {
 			break;
 		case "sudo":
 			if (op.includes(u)) {
-				say(args.join(" "));
+				send(args.join(" "));
 			} else {
 				out(`: Sorry, you're not an operator.`);
 			}
