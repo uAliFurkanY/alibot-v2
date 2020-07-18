@@ -226,10 +226,12 @@ function main(bot) {
 		let realCmd = false;
 
 		if (ignored.includes(u)) return 0;
+		if (cm.extra.length === 1 && cm.extra[0].color === "light_purple")
+			return 0;
+
 		if (
 			m.startsWith(prefix) &&
-			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc") &&
-			!(cm.extra.length === 1 && cm.extra[0].color === "light_purple")
+			!(cm.extra[0].text === "<" && cm.extra[1].text === "dc")
 		) {
 			let cmd = m.replace(prefix, "").trim();
 			let args = cmd.split(" ");
