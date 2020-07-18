@@ -18,13 +18,17 @@ Kills the bot. (public mode only)
 
 Tells you the mode or changes it. (operators only)
 
-#### say
+#### say \<message>
 
 Makes the bot say something. (public mode only)
 
-#### sudo
+#### sudo \<message>
 
 Like `say` but says _exactly_ what you said. (operators only)
+
+#### su \<user> \<command> [args]
+
+Parses a command as another person. (operators only)
 
 #### discord
 
@@ -40,13 +44,11 @@ Lists the operators or makes someone an operator. (operators only)
 
 #### deop \<person>
 
-Opposite of `op`. Removes operator status. (operators only [1](#1))
+Opposite of `op`. Removes operator status. (operators only)
 
 #### ignore [person]
 
 Tells you the list of ignored people, ignores, unignores all messages by a person. (operators only)
-
-Note: Doesn't use `/ignore`. People that has been made an operator with `op` can't ignore operators in the configuration or the bot itself.
 
 #### ping [person]
 
@@ -78,7 +80,7 @@ Tells you the prefix or changes it. (operators only)
 
 #### save
 
-Saves the current configuration to `config.json`. (operators only [1](#1))
+Saves the current configuration to `config.json`. (operators only)
 
 ## Configuration
 
@@ -138,9 +140,3 @@ Values:
 #### PREFIX (":")
 
 Prefix for chat commands.
-
-### More
-
-##### 1
-
-Only the operators in the original configuration.
