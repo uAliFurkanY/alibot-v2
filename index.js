@@ -301,13 +301,14 @@ function doCmd(command = "", args = [], u, out = send) {
 			} else {
 				out(`: Sorry, you're not an operator.`);
 			}
+			break;
 		case "kill":
 			if (
 				op.includes(u) ||
 				(Date.now() >= lastkill + 15 * 1000 && mode !== "private")
 			) {
 				lastkill = Date.now();
-				out(`/kill`);
+				send(`/kill`);
 			} else if (mode === "private") {
 				out(`: Sorry, the mode is private.`);
 			} else {
