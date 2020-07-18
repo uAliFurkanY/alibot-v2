@@ -393,7 +393,15 @@ function doCmd(command = "", args = [], u, out = send) {
 				let coords = args.map(
 					(x, i) => parseInt(x) || (i === 1 ? 5 : 0)
 				);
-				bot.navigate.to(new Vec3(coords[0], coords[1], coords[2]));
+				try {
+					out(`: Navigating...`);
+					bot.navigate.to(
+						new Vec3(coords[0], coords[1], coords[2])
+					);
+				} catch (e) {
+					out(`: Error.`);
+					console.log(e);
+				}
 			} else {
 				out(`: Sorry, you're not an operator.`);
 			}
