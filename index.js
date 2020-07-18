@@ -399,14 +399,14 @@ function doCmd(command = "", args = [], u, out = send) {
 				} else if (coordsArgs.length >= 2) {
 					coords = [
 						coordsArgs[0],
-						bot.player.position.y,
+						bot.player.entity.position.y,
 						coordsArgs[1],
 					];
 				} else if (coordsArgs.length >= 1) {
 					coords = [
-						bot.player.position.x,
+						bot.player.entity.position.x,
 						coordsArgs[0],
-						bot.player.position.z,
+						bot.player.entity.position.z,
 					];
 				} else {
 					out(`: No coordinates given.`);
