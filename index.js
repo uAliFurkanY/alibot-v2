@@ -390,11 +390,30 @@ function doCmd(command = "", args = [], u, out = send) {
 			break;
 		case "goto":
 			if (op.includes(u)) {
-				let coords = args.map(
-					(x, i) => parseInt(x) || (i === 1 ? 5 : 0)
-				);
+				let coordsArgs = args
+					.map((x, i) => parseInt(x) || false)
+					.filter((x) => x !== false);
+				let coords = [];
+				if (coordsArgs.length >= 3) {
+					coords = coordsArgs;
+				} else if (coordsArgs.length >= 2) {
+					coords = [
+						coordsArgs[0],
+						bot.player.position.y,
+						coordsArgs[1],
+					];
+				} else if (coordsArgs.length >= 1) {
+					coords = [
+						bot.player.position.x,
+						coordsArgs[0],
+						bot.player.position.z,
+					];
+				} else {
+					out(`: No coordinates given.`);
+					break;
+				}
 				try {
-					out(`: Navigating...`);
+					out(`: Navigating to ${coords.join(" ")}.`);
 					bot.navigate.to(
 						new Vec3(coords[0], coords[1], coords[2])
 					);

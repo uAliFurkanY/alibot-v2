@@ -62,11 +62,9 @@ Tells you the calculated TPS of the server.
 
 Tells you the coordinates of the bot. (public mode only)
 
-#### goto [\<x> \<y> \<z>]
+#### goto \<xyz|xz|y>
 
 Navigates to the specified coordinates. (operators only)
-
-Note: The coordinates default to `0 5 0`.
 
 #### stopGoto
 
