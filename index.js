@@ -83,7 +83,6 @@ const rl = readline.createInterface({
 
 let ignored = config.IGNORED.split(",");
 let op = config.OP.split(",");
-let realOp = config.OP.split(",");
 console.log("Operators: " + op);
 
 let lastkill = Date.now();
@@ -277,14 +276,19 @@ function doCmd(command = "", args = [], u, out = send) {
 			}
 			break;
 		case "su": // parses a fake command as another person.
-			if (realOp.includes(u) || u === (username || "alib0t")) {
+			if (op.includes(u)) {
 				if (args.length >= 1) {
 					if (args.length >= 2) {
 						let targetUser = args.shift();
 						let toDo = args.shift();
 						let realCmd = doCmd(toDo, args, targetUser, out);
 						if (realCmd) {
-							log(`CMD ${targetUser} ${toDo} ${args.join(" ")}`, LOG_CMD);
+							log(
+								`CMD ${targetUser} ${toDo} ${args.join(
+									" "
+								)}`,
+								LOG_CMD
+							);
 						}
 					} else {
 						out(`: Say a command.`);
@@ -349,16 +353,8 @@ function doCmd(command = "", args = [], u, out = send) {
 				try {
 					let idx = op.findIndex((name) => name === args[0]);
 					if (idx > -1) {
-						if (
-							(realOp.includes(op[idx]) ||
-								args[0] === username) &&
-							!(realOp.includes(u) || u === username)
-						)
-							out(`: You can't deop ${args[0]}.`);
-						else {
-							op.splice(idx, 1);
-							out(`: Deopped ${args[0]}.`);
-						}
+						op.splice(idx, 1);
+						out(`: Deopped ${args[0]}.`);
 					} else out(`: ${args[0]} isn't an opeator.`);
 				} catch (e) {
 					out(`: Error.`);
@@ -373,12 +369,8 @@ function doCmd(command = "", args = [], u, out = send) {
 				try {
 					let idx = ignored.findIndex((name) => name === args[0]);
 					if (idx > -1) {
-						if (op.includes(args[0]))
-							out(`: You can't ignore ${args[0]}.`);
-						else {
-							ignored.splice(idx, 1);
-							out(`: Unignored ${args[0]}.`);
-						}
+						ignored.splice(idx, 1);
+						out(`: Unignored ${args[0]}.`);
 					} else {
 						ignored.push(args[0]);
 						out(`: Ignored ${args[0]}.`);
@@ -444,7 +436,7 @@ function doCmd(command = "", args = [], u, out = send) {
 			}
 			break;
 		case "save":
-			if (realOp.includes(u)) {
+			if (op.includes(u)) {
 				try {
 					config.OP = op.join(",");
 					config.IGNORED = ignored.join(",");
@@ -456,8 +448,6 @@ function doCmd(command = "", args = [], u, out = send) {
 					out(`: Error.`);
 					console.log(e);
 				}
-			} else if (op.includes(u)) {
-				out(`: Sorry, you're not allowed to use this command.`);
 			} else {
 				out(`: Sorry, you are not an operator.`);
 			}
